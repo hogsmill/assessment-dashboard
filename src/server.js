@@ -80,9 +80,9 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
   db = client.db('db')
 
   const route = __dirname.split(/assessment-dashboard/).split(/src/)[0]
-  let env = route ? fs.readFile('../../five-dysfuntions-' + route + '/.env'): fs.readFile('../../five-dysfuntions/.env')
+  let envFile = route ? '../../five-dysfuntions-' + route + '/.env' : '../../five-dysfuntions/.env'
 
-  console.log(env)
+  console.log(envFile)
   process.exit()
 
   db.createCollection(gameCollection, function(error, collection) {})
