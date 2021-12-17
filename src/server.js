@@ -8,7 +8,7 @@ const os = require('os')
 const prod = os.hostname() == 'agilesimulations' ? true : false
 const logFile = prod ? process.argv[4] : 'server.log'
 const port = prod ? process.env.VUE_APP_PORT : 3016
-const gameCollection =  prod ? process.env.VUE_APP_COLLECTION : 'socketTest'
+const route =  prod ? process.env.VUE_APP_ROUTE : ''
 
 ON_DEATH((signal, err) => {
   let logStr = new Date()
@@ -79,8 +79,11 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
   if (err) throw err
   db = client.db('db')
 
-  const route = __dirname.split(/assessment-dashboard/).split(/src/)[0]
-  let envFile = route ? '../../five-dysfuntions-' + route + '/.env' : '../../five-dysfuntions/.env'
+  let envFile = '/var/www/html/five-dysfunctions'
+  if (route) {
+    envFile = envFile + '-' + route
+  }
+  envFile = envFile + '/.env'
 
   console.log(envFile)
   process.exit()
