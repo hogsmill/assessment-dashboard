@@ -108,13 +108,116 @@ function fiveDysfunctionsEnv(db) {
   return db
 }
 
+function healthCheckEnv(db) {
+  let envFile = '/usr/apps/team-health-check'
+  if (route) {
+    envFile = envFile + '-' + route
+  }
+  envFile = envFile + '/.env'
+
+  const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
+  for (let i = 0; i < env.length; i++) {
+    const fields = env[i].split(/=/)
+    const name = fields[0]
+    const collection = fields[1]
+    switch(name) {
+      case 'VUE_APP_SERVER_COLLECTION':
+        db.healthCheckServerCollection = db.collection(collection)
+        break
+      case 'VUE_APP_DEPARTMENTS_COLLECTION':
+        db.healthCheckDepartmentsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_TEAMS_COLLECTION':
+        db.healthCheckTeamsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_QUESTION_COLLECTION':
+        db.healthCheckQuestionsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_ASSESSMENTS_COLLECTION':
+        db.healthCheckAssessmentsCollection = db.collection(collection)
+        break
+    }
+  }
+  return db
+}
+
+function agileMaturityEnv(db) {
+  let envFile = '/usr/apps/agile-maturity'
+  if (route) {
+    envFile = envFile + '-' + route
+  }
+  envFile = envFile + '/.env'
+
+  const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
+  for (let i = 0; i < env.length; i++) {
+    const fields = env[i].split(/=/)
+    const name = fields[0]
+    const collection = fields[1]
+    switch(name) {
+      case 'VUE_APP_SERVER_COLLECTION':
+        db.agileMaturityServerCollection = db.collection(collection)
+        break
+      case 'VUE_APP_DEPARTMENTS_COLLECTION':
+        db.agileMaturityDepartmentsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_TEAMS_COLLECTION':
+        db.agileMaturityTeamsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_QUESTION_COLLECTION':
+        db.agileMaturityQuestionsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_ASSESSMENTS_COLLECTION':
+        db.agileMaturityAssessmentsCollection = db.collection(collection)
+        break
+    }
+  }
+  return db
+}
+
+function scrumMasterEnv(db) {
+  let envFile = '/usr/apps/scrum-master'
+  if (route) {
+    envFile = envFile + '-' + route
+  }
+  envFile = envFile + '/.env'
+
+  const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
+  for (let i = 0; i < env.length; i++) {
+    const fields = env[i].split(/=/)
+    const name = fields[0]
+    const collection = fields[1]
+    switch(name) {
+      case 'VUE_APP_SERVER_COLLECTION':
+        db.scrumMasterServerCollection = db.collection(collection)
+        break
+      case 'VUE_APP_DEPARTMENTS_COLLECTION':
+        db.scrumMasterDepartmentsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_TEAMS_COLLECTION':
+        db.scrumMasterTeamsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_QUESTION_COLLECTION':
+        db.scrumMasterQuestionsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_ASSESSMENTS_COLLECTION':
+        db.scrumMasterAssessmentsCollection = db.collection(collection)
+        break
+    }
+  }
+  return db
+}
+
 let db
 MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime }, (err, client) => {
   if (err) throw err
   db = client.db('db')
 
   db = fiveDysfunctionsEnv(db)
+  db = healthCheckEnv(db)
+  db = agileMaturityEnv(db)
+  db = scrumMasterEnv(db)
 
+    break;
   io.on('connection', (socket) => {
     const connection = socket.handshake.headers.host
     connections[connection] = connections[connection] ? connections[connection] + 1 : 1
