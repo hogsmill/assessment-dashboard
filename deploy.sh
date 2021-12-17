@@ -57,7 +57,7 @@ do
   fi
   ENVFILE="$DIR/.env"
   echo "VUE_APP_PORT=$PORT" > $ENVFILE
-  echo "VUE_APP_ROUTE=$ROUTE" > $ENVFILE
+  echo "VUE_APP_ROUTE=$ROUTE" >> $ENVFILE
   if [ ! -z "$APPNAME" ]; then
     echo "VUE_APP_NAME=$APPNAME" >> $ENVFILE
   fi
