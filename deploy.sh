@@ -19,26 +19,14 @@ BASEPORT=4700
 REPO="https://github.com/hogsmill/assessment-dashboard.git"
 MAINAPP="assessment-dashboard"
 
-FIVEDYSFUNCTIONSCOLLECTION="fiveDysfunctions"
-TEAMHEALTHCHECKCOLLECTION="healthCheck"
-AGILEMATURITYCOLLECTION="agileMaturity"
-SCRUMMASTERCOLLECTION="scrumMaster"
-
-GAMES=(
-  "5 Dysfunctions"
-  "Team Health Check"
-  "Agile Maturity"
-  "Scrum Master"
-)
-
 ROUTES=(
   '',''
   'new','New'
-  'abn','Abn'
-  'ratesetter','Ratesetter'
-  'eagile','EverydayAgile'
-  'and','And'
-  'richemont','Richemont'
+#  'abn','Abn'
+#  'ratesetter','Ratesetter'
+#  'eagile','EverydayAgile'
+#  'and','And'
+#  'richemont','Richemont'
 )
 
 for ((i = 0; i < ${#ROUTES[@]}; i++))
@@ -52,20 +40,14 @@ do
     APP="${APP}-${ROUTE}"
   fi
 
-  if [ "$COLLECTIONSUFFIX" != "" ]; then
-    FIVEDYSFUNCTIONSCOLLECTION="${FIVEDYSFUNCTIONSCOLLECTION}${COLLECTIONSUFFIX}"
-    TEAMHEALTHCHECKCOLLECTION="${TEAMHEALTHCHECKCOLLECTION}${COLLECTIONSUFFIX}"
-    AGILEMATURITYCOLLECTION="${AGILEMATURITYCOLLECTION}${COLLECTIONSUFFIX}"
-    SCRUMMASTERCOLLECTION="${SCRUMMASTERCOLLECTION}${COLLECTIONSUFFIX}"
-  fi
-  APPNAME=$MAINNAME
+  APPNAME="Assessment Dashboard"
   let PORT=$BASEPORT+$i
 
   echo "------------------------------------------------"
   if [ -z "$APPNAME" ]; then
-    echo "Installing $APP ($FIVEDYSFUNCTIONSCOLLECTION, ,$TEAMHEALTHCHECKCOLLECTION, $AGILEMATURITYCOLLECTION, $SCRUMMASTERCOLLECTION, $PORT)"
+    echo "Installing $APP ($ROUTE $PORT)"
   else
-    echo "Installing $APP ($FIVEDYSFUNCTIONSCOLLECTION, ,$TEAMHEALTHCHECKCOLLECTION, $AGILEMATURITYCOLLECTION, $SCRUMMASTERCOLLECTION, $PORT, $APPNAME)"
+    echo "Installing $APP ($ROUTE $PORT, $APPNAME)"
   fi
   echo "------------------------------------------------"
 
@@ -75,10 +57,7 @@ do
   fi
   ENVFILE="$DIR/.env"
   echo "VUE_APP_PORT=$PORT" > $ENVFILE
-  echo "VUE_APP_FIVEDYSFUNCTIONS_COLLECTION=$FIVEDYSFUNCTIONSCOLLECTION" >> $ENVFILE
-  echo "VUE_APP_TEAMHEALTHCHECK_COLLECTION=$TEAMHEALTHCHECKCOLLECTION" >> $ENVFILE
-  echo "VUE_APP_AGILEMATURITY_COLLECTION=$AGILEMATURITYCOLLECTION" >> $ENVFILE
-  echo "VUE_APP_SCRUMMASTER_COLLECTION=$SCRUMMASTERCOLLECTION" >> $ENVFILE
+  echo "VUE_APP_ROUTE=$ROUTE" > $ENVFILE
   if [ ! -z "$APPNAME" ]; then
     echo "VUE_APP_NAME=$APPNAME" >> $ENVFILE
   fi
