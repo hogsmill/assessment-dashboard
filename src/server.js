@@ -86,6 +86,9 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
   envFile = envFile + '/.env'
 
   console.log(envFile)
+
+  const env = fs.readFileSync(envFile, 'utf8')
+  console.log(env)  
   process.exit()
 
   db.createCollection(gameCollection, function(error, collection) {})
