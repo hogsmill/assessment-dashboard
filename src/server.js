@@ -80,7 +80,7 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
   if (err) throw err
   db = client.db('db')
 
-  let envFile = '/var/www/html/five-dysfunctions'
+  let envFile = '/usr/apps/five-dysfunctions'
   if (route) {
     envFile = envFile + '-' + route
   }
