@@ -21,7 +21,7 @@ ON_DEATH((signal, err) => {
   console.log(logStr)
   //fs.appendFile(logFile, logStr, (err) => {
   //  if (err) console.log(logStr)
-  //  process.exit()
+    process.exit()
   //})
 })
 
