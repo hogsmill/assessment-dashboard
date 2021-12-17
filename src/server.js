@@ -75,26 +75,45 @@ const emit = (event, data) => {
   io.emit(event, data)
 }
 
-let db
-MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime }, (err, client) => {
-  if (err) throw err
-  db = client.db('db')
-
+function fiveDysfunctionsEnv(db) {
   let envFile = '/usr/apps/five-dysfunctions'
   if (route) {
     envFile = envFile + '-' + route
   }
   envFile = envFile + '/.env'
 
-  console.log(envFile)
-
   const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
-  console.log(env)
-  process.exit()
+  for (let i = 0; i < env.length; i++) {
+    const fields = env[i].split(/=/)
+    const name = fields[0]
+    const collection = fields[1]
+    switch(name) {
+      case 'VUE_APP_SERVER_COLLECTION':
+        db.fiveDysfunctionsServerCollection = db.collection(collection)
+        break
+      case 'VUE_APP_DEPARTMENTS_COLLECTION':
+        db.fiveDysfunctionsDepartmentsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_TEAMS_COLLECTION':
+        db.fiveDysfunctionsTeamsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_QUESTION_COLLECTION':
+        db.fiveDysfunctionsQuestionsCollection = db.collection(collection)
+        break
+      case 'VUE_APP_ASSESSMENTS_COLLECTION':
+        db.fiveDysfunctionsAssessmentsCollection = db.collection(collection)
+        break
+    }
+  }
+  return db
+}
 
-  db.createCollection(gameCollection, function(error, collection) {})
+let db
+MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime }, (err, client) => {
+  if (err) throw err
+  db = client.db('db')
 
-  db.gameCollection = db.collection(gameCollection)
+  db = fiveDysfunctionsEnv(db)
 
   io.on('connection', (socket) => {
     const connection = socket.handshake.headers.host
