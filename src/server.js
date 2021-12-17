@@ -88,7 +88,7 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
 
   console.log(envFile)
 
-  const env = fs.readFileSync(envFile, 'utf8')
+  const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
   console.log(env)
   process.exit()
 
