@@ -18,10 +18,11 @@ ON_DEATH((signal, err) => {
   if (err && err.stack) {
     logStr = logStr + '  ' + err.stack + '\n'
   }
-  fs.appendFile(logFile, logStr, (err) => {
-    if (err) console.log(logStr)
-    process.exit()
-  })
+  console.log(logStr)
+  //fs.appendFile(logFile, logStr, (err) => {
+  //  if (err) console.log(logStr)
+  //  process.exit()
+  //})
 })
 
 global.TextEncoder = require("util").TextEncoder
@@ -88,7 +89,7 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
   console.log(envFile)
 
   const env = fs.readFileSync(envFile, 'utf8')
-  console.log(env)  
+  console.log(env)
   process.exit()
 
   db.createCollection(gameCollection, function(error, collection) {})
