@@ -217,7 +217,6 @@ MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime 
   db = agileMaturityEnv(db)
   db = scrumMasterEnv(db)
 
-    break;
   io.on('connection', (socket) => {
     const connection = socket.handshake.headers.host
     connections[connection] = connections[connection] ? connections[connection] + 1 : 1
