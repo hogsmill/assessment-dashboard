@@ -22,11 +22,11 @@ MAINAPP="assessment-dashboard"
 ROUTES=(
   '',''
   'new','New'
-#  'abn','Abn'
-#  'ratesetter','Ratesetter'
-#  'eagile','EverydayAgile'
-#  'and','And'
-#  'richemont','Richemont'
+  'abn','Abn'
+  'ratesetter','Ratesetter'
+  'eagile','EverydayAgile'
+  'and','And'
+  'richemont','Richemont'
 )
 
 for ((i = 0; i < ${#ROUTES[@]}; i++))
