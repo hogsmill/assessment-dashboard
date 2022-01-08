@@ -111,3 +111,5 @@ ps -ef | grep php | grep outdated
 if [ $? -eq 1 ]; then
   php /usr/apps/monitor/src/lib/outdated.php &
 fi
+
+exit 0
