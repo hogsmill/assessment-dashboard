@@ -1,16 +1,17 @@
+
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const fs = require('fs')
-
 const ON_DEATH = require('death')({uncaughtException: true})
 const os = require('os')
+
 const prod = os.hostname() == 'agilesimulations' ? true : false
 const logFile = prod ? process.argv[4] : 'server.log'
 const port = prod ? process.env.VUE_APP_PORT : 3016
 const route =  prod ? process.env.VUE_APP_ROUTE : ''
 
-ON_DEATH((signal, err) => {
+ON_DEATH(function(signal, err) {
   let logStr = new Date()
   if (signal) {
     logStr = logStr + ' ' + signal + '\n'
@@ -18,11 +19,10 @@ ON_DEATH((signal, err) => {
   if (err && err.stack) {
     logStr = logStr + '  ' + err.stack + '\n'
   }
-  console.log(logStr)
-  //fs.appendFile(logFile, logStr, (err) => {
-  //  if (err) console.log(logStr)
+  fs.appendFile(logFile, logStr, function (err) {
+    if (err) console.log(logStr)
     process.exit()
-  //})
+  })
 })
 
 global.TextEncoder = require("util").TextEncoder
@@ -75,147 +75,10 @@ const emit = (event, data) => {
   io.emit(event, data)
 }
 
-function fiveDysfunctionsEnv(db) {
-  let envFile = '/usr/apps/five-dysfunctions'
-  if (route) {
-    envFile = envFile + '-' + route
-  }
-  envFile = envFile + '/.env'
-
-  const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
-  for (let i = 0; i < env.length; i++) {
-    const fields = env[i].split(/=/)
-    const name = fields[0]
-    const collection = fields[1]
-    switch(name) {
-      case 'VUE_APP_SERVER_COLLECTION':
-        db.fiveDysfunctionsServerCollection = db.collection(collection)
-        break
-      case 'VUE_APP_DEPARTMENTS_COLLECTION':
-        db.fiveDysfunctionsDepartmentsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_TEAMS_COLLECTION':
-        db.fiveDysfunctionsTeamsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_QUESTION_COLLECTION':
-        db.fiveDysfunctionsQuestionsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_ASSESSMENTS_COLLECTION':
-        db.fiveDysfunctionsAssessmentsCollection = db.collection(collection)
-        break
-    }
-  }
-  return db
-}
-
-function healthCheckEnv(db) {
-  let envFile = '/usr/apps/team-health-check'
-  if (route) {
-    envFile = envFile + '-' + route
-  }
-  envFile = envFile + '/.env'
-
-  const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
-  for (let i = 0; i < env.length; i++) {
-    const fields = env[i].split(/=/)
-    const name = fields[0]
-    const collection = fields[1]
-    switch(name) {
-      case 'VUE_APP_SERVER_COLLECTION':
-        db.healthCheckServerCollection = db.collection(collection)
-        break
-      case 'VUE_APP_DEPARTMENTS_COLLECTION':
-        db.healthCheckDepartmentsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_TEAMS_COLLECTION':
-        db.healthCheckTeamsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_QUESTION_COLLECTION':
-        db.healthCheckQuestionsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_ASSESSMENTS_COLLECTION':
-        db.healthCheckAssessmentsCollection = db.collection(collection)
-        break
-    }
-  }
-  return db
-}
-
-function agileMaturityEnv(db) {
-  let envFile = '/usr/apps/agile-maturity'
-  if (route) {
-    envFile = envFile + '-' + route
-  }
-  envFile = envFile + '/.env'
-
-  const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
-  for (let i = 0; i < env.length; i++) {
-    const fields = env[i].split(/=/)
-    const name = fields[0]
-    const collection = fields[1]
-    switch(name) {
-      case 'VUE_APP_SERVER_COLLECTION':
-        db.agileMaturityServerCollection = db.collection(collection)
-        break
-      case 'VUE_APP_DEPARTMENTS_COLLECTION':
-        db.agileMaturityDepartmentsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_TEAMS_COLLECTION':
-        db.agileMaturityTeamsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_QUESTION_COLLECTION':
-        db.agileMaturityQuestionsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_ASSESSMENTS_COLLECTION':
-        db.agileMaturityAssessmentsCollection = db.collection(collection)
-        break
-    }
-  }
-  return db
-}
-
-function scrumMasterEnv(db) {
-  let envFile = '/usr/apps/scrum-master'
-  if (route) {
-    envFile = envFile + '-' + route
-  }
-  envFile = envFile + '/.env'
-
-  const env = fs.readFileSync(envFile, 'utf8').split(/\n/)
-  for (let i = 0; i < env.length; i++) {
-    const fields = env[i].split(/=/)
-    const name = fields[0]
-    const collection = fields[1]
-    switch(name) {
-      case 'VUE_APP_SERVER_COLLECTION':
-        db.scrumMasterServerCollection = db.collection(collection)
-        break
-      case 'VUE_APP_DEPARTMENTS_COLLECTION':
-        db.scrumMasterDepartmentsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_TEAMS_COLLECTION':
-        db.scrumMasterTeamsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_QUESTION_COLLECTION':
-        db.scrumMasterQuestionsCollection = db.collection(collection)
-        break
-      case 'VUE_APP_ASSESSMENTS_COLLECTION':
-        db.scrumMasterAssessmentsCollection = db.collection(collection)
-        break
-    }
-  }
-  return db
-}
-
 let db
 MongoClient.connect(url, { useUnifiedTopology: true, maxIdleTimeMS: maxIdleTime }, (err, client) => {
   if (err) throw err
   db = client.db('db')
-
-  db = fiveDysfunctionsEnv(db)
-  db = healthCheckEnv(db)
-  db = agileMaturityEnv(db)
-  db = scrumMasterEnv(db)
 
   io.on('connection', (socket) => {
     const connection = socket.handshake.headers.host

@@ -21,12 +21,17 @@ module.exports = {
        }],
       'vue/max-attributes-per-line': ['error', {
         'singleline': 8,
-        'multiline': {
-          'max': 3,
-          'allowFirstLine': true
-        }
+        'multiline': 3
       }]
     },
+    'overrides': [
+      {
+        'files': ['src/**/*.vue'],
+        'rules': {
+          'vue/multi-word-component-names': 0
+        },
+      }
+    ],
     'globals': {
         'require': true,
         'module': true,

@@ -1,9 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
 
-Vue.use(Vuex)
+import { createStore } from 'vuex'
 
-export const store = new Vuex.Store({
+export const store = createStore({
   state: {
     thisGame: 'Assessment Dashboard',
     connections: 0,
