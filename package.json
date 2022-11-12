@@ -13,7 +13,7 @@
     "cors": "^2.8.5",
     "death": "^1.1.0",
     "dotenv": "^16.0.3",
-    "express": "^4.17.3",
+    "express": "^4.18.2",
     "is-svg": "^4.3.2",
     "jquery": "^3.6.1",
     "mongodb": "^4.11.0",
@@ -26,7 +26,7 @@
     "tiny-emitter": "^2.1.0",
     "vue": "^3.2.45",
     "vue-final-modal": "^3.4.3",
-    "vuex": "^4.0.0"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
@@ -34,8 +34,8 @@
     "@vue/cli-plugin-eslint": "~5.0.4",
     "@vue/cli-service": "~5.0.4",
     "@vue/compiler-sfc": "^3.1.0-0",
-    "eslint": "^8.12.0",
-    "eslint-plugin-vue": "^8.5.0",
+    "eslint": "^8.27.0",
+    "eslint-plugin-vue": "^9.7.0",
     "node-sass": "^7.0.1",
     "sass-loader": "^12.6.0"
   },
