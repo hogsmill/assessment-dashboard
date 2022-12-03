@@ -15,6 +15,7 @@ module.exports = {
       'quotes': ['error', 'single'],
       'semi': ['error', 'never'],
       'array-element-newline': 'off',
+      'vue/no-reserved-component-names': 'off',
       'vue/attributes-order': ['error', {
         'order': [],
         'alphabetical': false
